@@ -1,0 +1,7 @@
+{
+  "name": "traceNewChipCalibrateRawData",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
