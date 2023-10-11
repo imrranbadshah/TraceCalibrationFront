@@ -1,20 +1,52 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="ion-text-center">
     <ion-title>
-      Blank
+      Trace calibration
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-row class="ion-margin-top ion-padding-top ion-justify-content-center params" [formGroup]="paramForm">
+    <ion-col size="10" size-sm="10" size-md="1" size-lg="1" class="ion-no-padding"></ion-col>
+    <ion-col size="10" size-sm="10" size-md="2" size-lg="2">
+      <ion-input formControlName="tagId" labelPlacement="floating" fill="outline" size="small" label="Tag ID"
+        placeholder="Tag ID"></ion-input>
+    </ion-col>
+    <ion-col size="10" size-sm="10" size-md="1" size-lg="1" class="ion-no-padding"></ion-col>
+    <ion-col size="10" size-sm="10" size-md="2" size-lg="2" class="expand ion-text-center">
+      <!-- <ion-input labelPlacement="floating" fill="outline" label="From Date" placeholder="From Date"></ion-input> -->
+      <ion-datetime-button datetime="fromdatetime"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime id="fromdatetime" presentation="date" [showDefaultButtons]="true"
+            (ionChange)="changeDateTime($event,'from')">
+            <span slot="title">From DateTime</span>
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-col>
+    <ion-col size="10" size-sm="10" size-md="1" size-lg="1" class="ion-no-padding"></ion-col>
+    <ion-col size="10" size-sm="10" size-md="2" size-lg="2" class="expand">
+      <!-- <ion-input labelPlacement="floating" fill="outline" label="To Date" placeholder="To Date"></ion-input> -->
+      <ion-datetime-button datetime="todatetime"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime id="todatetime" presentation="date" [showDefaultButtons]="true"
+            (ionChange)="changeDateTime($event,'to')">
+            <span slot="title">To DateTime</span>
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-col>
+    <ion-col size="10" size-sm="10" size-md="1" size-lg="1" class="ion-no-padding"></ion-col>
+    <ion-col size="12" class="ion-text-center ion-margin ion-padding" *ngIf="records.length > 0">
+      <ion-label [ngClass]="records.length == 0 ? 'red' : 'green'">{{records.length}} Records Fetched</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-margin-top ion-padding-top">
+    <ion-col size="12" class="ion-text-center">
+      <ion-button (click)="getDataFromDB()">Generate</ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>

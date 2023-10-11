@@ -1,27 +1,53 @@
 #container {
   text-align: center;
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
+  position : absolute;
+  left     : 0;
+  right    : 0;
+  top      : 50%;
   transform: translateY(-50%);
 }
 
+.expand {
+
+  ion-datetime-button {
+    border       : 1px solid #b3b3b3;
+    border-radius: 4px;
+  }
+
+  ion-datetime-button::part(native),
+  ion-datetime-button {
+    height    : 100%;
+    width     : 100%;
+    background: transparent;
+
+  }
+}
+
 #container strong {
-  font-size: 20px;
+  font-size  : 20px;
   line-height: 26px;
 }
 
 #container p {
-  font-size: 16px;
+  font-size  : 16px;
   line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+  color      : #8c8c8c;
+  margin     : 0;
 }
 
 #container a {
   text-decoration: none;
+}
+
+.red {
+  color: red;
+}
+
+.green {
+  color: green;
+}
+
+.params {
+  margin-top: 4rem;
 }
