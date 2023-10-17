@@ -10,8 +10,8 @@
   <ion-row class="ion-margin-top ion-padding-top ion-justify-content-center params" [formGroup]="paramForm">
     <ion-col size="10" size-sm="10" size-md="1" size-lg="1" class="ion-no-padding"></ion-col>
     <ion-col size="10" size-sm="10" size-md="2" size-lg="2">
-      <ion-input formControlName="tagId" labelPlacement="floating" fill="outline" size="small" label="Tag ID"
-        placeholder="Tag ID"></ion-input>
+      <ion-input class="ion-text-center" formControlName="tagId" labelPlacement="floating" fill="outline" size="small"
+        label="Tag ID" placeholder="Tag ID"></ion-input>
     </ion-col>
     <ion-col size="10" size-sm="10" size-md="1" size-lg="1" class="ion-no-padding"></ion-col>
     <ion-col size="10" size-sm="10" size-md="2" size-lg="2" class="expand ion-text-center">
@@ -46,7 +46,10 @@
   </ion-row>
   <ion-row class="ion-margin-top ion-padding-top">
     <ion-col size="12" class="ion-text-center">
-      <ion-button (click)="getDataFromDB()">Generate</ion-button>
+      <ion-button (click)="getDataFromDB()" class="generate" [ngClass]="{'loading' : isLoading }">
+        <ion-text *ngIf="!isLoading">Generate</ion-text>
+        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+      </ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { ApiService } from '../providers/api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,9 +7,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage implements OnInit {
   paramForm!: FormGroup;
   records: any[] = [];
+  isLoading: boolean = false;
   constructor(public api: ApiService, public fb: FormBuilder) {
     this.paramForm = this.fb.group({
       "tagId": ['', Validators.required],
@@ -26,15 +27,29 @@ export class HomePage implements OnInit {
    * @description used to get data from DB
    */
   getDataFromDB() {
-    console.log(this.paramForm.value);
+    this.isLoading = true;
+    // console.log(this.paramForm.value);
     this.api.getStoredDataDump(this.paramForm.value).subscribe((resp: any) => {
-      console.log(resp);
+      // console.log(resp);
+      let tagIdSets = new Set();
+      resp.map((item: any) => tagIdSets.add(item['mac']));
+      let tagIds = Array.from(tagIdSets);
+      let tagBasedDataRecord = [];
+      for (let i = 0; i < tagIds.length; i++) {
+        let tt = resp.filter((tagId: any) => tagId['mac'] == tagIds[i]);
+        tagBasedDataRecord.push(tt);
+      }
+      // console.log(tagIds, tagBasedDataRecord);
       this.records = resp;
       if (resp.length == 0) return;
+      let column = Object.keys(resp[0]);
       let name = this.paramForm.value['tagId'] + "_" + this.paramForm.value['fromDateTime'].split('T')[0] + "_" + this.paramForm.value['toDateTime'].split('T')[0];
-      this.api.exportArrayToExcel(resp, name, [this.paramForm.value['fromDateTime'], this.paramForm.value['toDateTime']]);
+      this.api.exportArrayToExcelSheet(tagBasedDataRecord, column, name, [this.paramForm.value['fromDateTime'], this.paramForm.value['toDateTime']]);
+      // this.api.exportArrayToExcel(resp, name, [this.paramForm.value['fromDateTime'], this.paramForm.value['toDateTime']]);
+      this.isLoading = false;
     }, (err: any) => {
       console.error(err);
+      this.isLoading = false;
     })
   }
 

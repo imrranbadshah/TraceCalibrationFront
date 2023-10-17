@@ -23,7 +23,11 @@ export class ExportExcelService {
 
     //Create a workbook with a worksheet
     let workbook = new Workbook();
-    let worksheet = workbook.addWorksheet(`${dates}`);
+    let worksheet = workbook.addWorksheet(`${dates}_test`);
+    // let worksheet2 = workbook.addWorksheet(`${dates}_test2`);
+    // workbook.eachSheet((test) => {
+    //   console.log(test);
+    // })
 
     //Add Row and formatting
     worksheet.mergeCells('B1', 'D4');
